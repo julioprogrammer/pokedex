@@ -1,0 +1,46 @@
+.card-image img {
+    width: 324px;
+    height: 243px;
+}
+
+.description {
+   max-width: 450px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap
+}
+
+.container .tabs .tab a {
+    color: rgba(33, 33, 33, 0.7);
+}
+
+.container .tabs.tabs-transparent .tab a,
+.container .tabs.tabs-transparent .tab.disabled a,
+.container .tabs.tabs-transparent .tab.disabled a:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.container .tabs.tabs-transparent .tab a,
+.container .tabs.tabs-transparent .tab.disabled a,
+.container .tabs.tabs-transparent .tab.disabled a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.container .tabs .tab a:hover,
+.container .tabs .tab a.active {
+    background-color: transparent;
+    color: #212121;
+}
+
+.container .tabs .indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #fff;
+    will-change: left, right;
+}
+
+.buttonColors {
+    padding-left: 10px;
+    float: left;
+}
