@@ -29,13 +29,17 @@ class CardList extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         $('body').addClass(`${this.props.typeColor || ''} lighten-4`)
     }
 
     render() {
         if (this.props.allPokemonsQuery && this.props.allPokemonsQuery.loading) {
-          return <div>Loading</div>
+            return (
+                <div className="progress">
+                    <div className="indeterminate"></div>
+                </div>
+            )
         }
 
         if (this.props.allPokemonsQuery && this.props.allPokemonsQuery.error) {

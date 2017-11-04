@@ -44,3 +44,7 @@
     padding-left: 10px;
     float: left;
 }
+
+.imagePreview {
+    width: 80%
+}

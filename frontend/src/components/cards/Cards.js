@@ -9,7 +9,7 @@ class Cards extends Component {
                     <div className="card-image">
                         <img src={this.props.image} alt='Imagem do pokemon' />
                         <span className="card-title grey darken-4">{this.props.name}</span>
-                        <a href={`/detail/${this.props.id}`} className='btn-floating halfway-fab waves-effect waves-light red'><i className="material-icons">add</i></a>
+                        <a href={`/detail/${this.props.id}`} className='btn-floating halfway-fab waves-effect waves-light red pulse'><i className="material-icons">add</i></a>
                     </div>
                     <div className="card-content">
                         <p>Clicke no "mais ( + )" para ver os detalhes desse pokemon</p>

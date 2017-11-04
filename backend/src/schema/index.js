@@ -17,7 +17,7 @@ const typeDefs = `
 
     type Mutation {
         createPokemons(image: String!, name: String!, description: String!, color: String!): Pokemon
-        deletePokemons(_id: String!): Pokemon
+        deletePokemons(key: String!): Pokemon
     }
 
     input PokemonFilter {

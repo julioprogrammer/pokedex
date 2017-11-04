@@ -109,6 +109,9 @@ class NewPokemons extends Component {
                                         <textarea id="icon_prefix2" className='materialize-textarea' name='description' onChange={this.onChangeInputs}></textarea>
                                         <label htmlFor="icon_prefix2">Descrição</label>
                                     </div>
+                                    <div className='col s6'>
+                                        <img className='imagePreview' src={this.state.image} alt='Pokemon Image' />
+                                    </div>
                                 </div>
                                 <div className='row'>
                                     <div className='col s12'>

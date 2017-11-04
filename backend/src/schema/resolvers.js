@@ -41,8 +41,11 @@ module.exports = {
         },
 
         deletePokemons: async (root, data, { mongo: { Pokemons } }) => {
-          const response = await Pokemons.remove({ _id: data._id });
-          return response;
+            const deletePokemon = {
+                key: data.key
+            }
+            const response = await Pokemons.deleteOne({ key: deletePokemon.key });
+            return deletePokemon;
         }
 
     }

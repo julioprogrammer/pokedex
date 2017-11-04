@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { graphql, gql } from 'react-apollo'
+import { graphql, gql, compose } from 'react-apollo'
 
 import CardDetail from '../cards/CardDetail'
-import Nav from '../nav/Nav'
+import Nav from '../nav/NavDetail'
 import DropdownList from '../nav/DropdownList'
 import FloatButton from '../floatActionButton/FloatButton'
 
-import { mockCards } from '../../util'
+import $ from 'jquery'
 
 class PokemonDetail extends Component {
     constructor(props) {
@@ -17,7 +17,8 @@ class PokemonDetail extends Component {
                     key: 'deletePokemon',
                     icon: 'delete',
                     color: 'red',
-                    to: ''
+                    to: '',
+                    funcOptions: this.deletePokemons
                 },
                 {
                     key: 'editPokemon',
@@ -29,15 +30,7 @@ class PokemonDetail extends Component {
         }
     }
 
-    componentWillMount() {
-        const pokemonSelected = mockCards.filter((data) => data.key === this.props.match.params.id)
-        this.setState({
-            detail: pokemonSelected[0] || this.state.detail
-        })
-    }
-
     renderComponent = () => {
-
         if (this.props.detailPokemonQuery && this.props.detailPokemonQuery.loading) {
             return (
                 <div class="progress">
@@ -53,13 +46,31 @@ class PokemonDetail extends Component {
         return this.props.detailPokemonQuery.allPokemons.filter((data) => data.key === this.props.match.params.id)[0]
     }
 
+    deletePokemons = () => {
+        this.props.deletePokemonsMutation({
+            variables: {
+               key: this.props.match.params.id
+            },
+            update: (store, { data: { deletePokemons } }) => {
+                $('body').removeAttr(`class`)
+                const data = store.readQuery({ query: DETAIL_POKEMON_QUERY })
+                const allPokemons = data.allPokemons.filter((dt) => dt.key !== this.props.match.params.id)
+                store.writeQuery({
+                    query: DETAIL_POKEMON_QUERY,
+                    data: { allPokemons: [...allPokemons] }
+                })
+            }
+        })
+        this.props.history.push(`/`)
+    }
+
     render() {
         const pokemon = this.renderComponent()
 
         return(
             <div>
                 <DropdownList />
-                <Nav color={pokemon.color} />
+                <Nav color={pokemon.color} pokemonName={pokemon.name}/>
                 <div className="container">
                     <div className="section">
                         <div className="row">
@@ -74,7 +85,7 @@ class PokemonDetail extends Component {
                 <FloatButton
                     options={this.state.options}
                     mainIcon={'content_paste'}
-                    mainColor={'orange darken-4'}
+                    mainColor={'red'}
                     orientation={'vertical'} />
             </div>
         )
@@ -82,14 +93,27 @@ class PokemonDetail extends Component {
 }
 
 const DETAIL_POKEMON_QUERY = gql`
-  query detailPokemonQuery {
-    allPokemons {
-      key,
-      name,
-      description,
-      image,
-      color
+    query detailPokemonQuery {
+        allPokemons {
+            key,
+            name,
+            description,
+            image,
+            color
+        }
     }
-  }
 `
-export default graphql(DETAIL_POKEMON_QUERY, { name: 'detailPokemonQuery' }) (PokemonDetail)
+
+const DELETE_POKEMONS = gql`
+    mutation deletePokemonsMutation($key: String!) {
+        deletePokemons(
+            key: $key
+        ) {
+            key
+        }
+    }
+`
+export default compose(
+    graphql(DETAIL_POKEMON_QUERY, { name: 'detailPokemonQuery' }),
+    graphql(DELETE_POKEMONS, { name: 'deletePokemonsMutation' })   
+) (PokemonDetail)
