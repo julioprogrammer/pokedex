@@ -17,7 +17,7 @@ class CardList extends Component {
                     key: 'searchPokemons',
                     icon: 'search',
                     color: 'blue',
-                    to: ''
+                    to: '/search'
                 },
                 {
                     key: 'newPokemons',
@@ -47,8 +47,6 @@ class CardList extends Component {
         }
 
         const pokemonsToRender = this.props.allPokemonsQuery.allPokemons
-
-        console.log(pokemonsToRender)
 
         return (
             <div>
