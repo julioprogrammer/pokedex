@@ -1,3 +1,5 @@
+const pubsub = require('../pubsub');
+
 function buildFilters({OR = [], key_contains, name_contains}) {
   const filter = (key_contains || name_contains) ? {} : null;
   if (key_contains) {
@@ -37,6 +39,7 @@ module.exports = {
             };
             const response = await Pokemons.insert(newPokemon);
             newPokemon._id = response.insertedIds[0];
+            pubsub.publish('Pokemon', { Pokemon: { mutation: 'CREATED', node: newPokemon } });
             return newPokemon;
         },
 
@@ -45,9 +48,18 @@ module.exports = {
                 key: data.key
             }
             const response = await Pokemons.deleteOne({ key: deletePokemon.key });
+            pubsub.publish('Pokemon', { Pokemon: { mutation: 'DELETED', node: deletePokemon } });
             return deletePokemon;
         }
 
-    }
+    },
+
+    Subscription: {
+
+        Pokemon: {
+            subscribe: () => pubsub.asyncIterator('Pokemon'),
+        },
+
+    },
 
 };

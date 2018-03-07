@@ -20,10 +20,29 @@ const typeDefs = `
         deletePokemons(key: String!): Pokemon
     }
 
+    type Subscription {
+        Pokemon(filter: PokemonSubscriptionFilter): PokemonSubscriptionPayload
+    }
+
+    type PokemonSubscriptionPayload {
+        mutation: _ModelMutationType!
+        node: Pokemon
+    }
+
+    input PokemonSubscriptionFilter {
+        mutation_in: [_ModelMutationType!]
+    }
+
     input PokemonFilter {
-      OR: [PokemonFilter!]
-      key_contains: String
-      name_contains: String
+        OR: [PokemonFilter!]
+        key_contains: String
+        name_contains: String
+    }
+
+    enum _ModelMutationType {
+        CREATED
+        UPDATED
+        DELETED
     }
 `;
 
