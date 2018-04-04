@@ -42,7 +42,6 @@ class NewPokemons extends Component {
                 },
                 update: (store, { data: { createPokemons } }) => {
                     const data = store.readQuery({ query: ALL_POKEMONS_QUERY })
-                    data.allPokemons.splice(0, 0, createPokemons)
                     store.writeQuery({
                         query: ALL_POKEMONS_QUERY,
                         data

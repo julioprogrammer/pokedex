@@ -33,6 +33,41 @@ class CardList extends Component {
         $('body').addClass(`${this.props.typeColor || ''} lighten-4`)
     }
 
+    componentDidMount() {
+        this._subscribeToNewLinks()
+    }
+
+    _subscribeToNewLinks = () => {
+        this.props.allPokemonsQuery.subscribeToMore({
+            document: gql`
+                subscription {
+                    Pokemon(filter: {
+                        mutation_in: [CREATED]
+                    }) {
+                        node {
+                            key,
+                            name,
+                            description,
+                            image,
+                            color
+                        }
+                    }
+                }
+            `,
+            updateQuery: (previous, { subscriptionData }) => {
+                const newAllPokemons = [
+                    subscriptionData.data.Pokemon.node,
+                    ...previous.allPokemons
+                ]
+                const result = {
+                    ...previous,
+                    allPokemons: newAllPokemons
+                }
+                return result
+            }
+        })
+    }
+
     render() {
         if (this.props.allPokemonsQuery && this.props.allPokemonsQuery.loading) {
             return (

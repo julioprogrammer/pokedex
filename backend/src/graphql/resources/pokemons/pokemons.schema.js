@@ -1,7 +1,6 @@
-const { makeExecutableSchema } = require('graphql-tools');
-const resolvers = require('./resolvers');
+const pokemonsTypes = `
 
-const typeDefs = `
+    # Pokemons definition type
     type Pokemon {
         _id: ID!
         key: String!
@@ -9,19 +8,6 @@ const typeDefs = `
         image: String!
         description: String!
         color: String!
-    }
-
-    type Query {
-        allPokemons(filter: PokemonFilter): [Pokemon!]!
-    }
-
-    type Mutation {
-        createPokemons(image: String!, name: String!, description: String!, color: String!): Pokemon
-        deletePokemons(key: String!): Pokemon
-    }
-
-    type Subscription {
-        Pokemon(filter: PokemonSubscriptionFilter): PokemonSubscriptionPayload
     }
 
     type PokemonSubscriptionPayload {
@@ -44,6 +30,25 @@ const typeDefs = `
         UPDATED
         DELETED
     }
+
 `;
 
-module.exports = makeExecutableSchema({ typeDefs, resolvers });
+const pokemonsQueries = `
+    allPokemons(filter: PokemonFilter): [Pokemon!]!
+`;
+
+const pokemonsMutations = `
+    createPokemons(image: String!, name: String!, description: String!, color: String!): Pokemon
+    deletePokemons(key: String!): Pokemon
+`;
+
+const pokemonsSubscriptions = `
+    Pokemon(filter: PokemonSubscriptionFilter): PokemonSubscriptionPayload
+`;
+
+export {
+    pokemonsTypes,
+    pokemonsQueries,
+    pokemonsMutations,
+    pokemonsSubscriptions
+}

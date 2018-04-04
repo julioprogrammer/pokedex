@@ -4,7 +4,8 @@ const {
     graphqlExpress,
     graphiqlExpress
 } = require('apollo-server-express');
-const schema = require('./schema');
+import schema from './graphql/schema';
+// const schema = require('./graphql/schema');
 const { 
     execute, 
     subscribe } = require('graphql');
@@ -16,7 +17,7 @@ const cors = require('cors');
 
 const connectMongo = require('./mongo-connector');
 
-const PORT = 3003;
+const PORT = process.env.GRAPHQL_PORT || 3003;
 
 const start = async() => {
 

@@ -1,22 +1,22 @@
-const pubsub = require('../pubsub');
+const pubsub = require('../../../pubsub');
 
 function buildFilters({OR = [], key_contains, name_contains}) {
-  const filter = (key_contains || name_contains) ? {} : null;
-  if (key_contains) {
-    filter.key = {$regex: `.*${key_contains}.*`};
-  }
-  if (name_contains) {
-    filter.name = {$regex: `.*${name_contains}.*`};
-  }
+    const filter = (key_contains || name_contains) ? {} : null;
+    if (key_contains) {
+        filter.key = {$regex: `.*${key_contains}.*`};
+    }
+    if (name_contains) {
+        filter.name = {$regex: `.*${name_contains}.*`};
+    }
 
-  let filters = filter ? [filter] : [];
-  for (let i = 0; i < OR.length; i++) {
-    filters = filters.concat(buildFilters(OR[i]));
-  }
-  return filters;
+    let filters = filter ? [filter] : [];
+    for (let i = 0; i < OR.length; i++) {
+        filters = filters.concat(buildFilters(OR[i]));
+    }
+    return filters;
 }
 
-module.exports = {
+export const pokemonsResolvers = {
 
     Query: {
 
